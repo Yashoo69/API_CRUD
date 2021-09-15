@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Result;
 use Illuminate\Http\Request;
+use App\Http\Resources\ResultResource;
 
 class ResultController extends Controller
 {
@@ -14,7 +15,7 @@ class ResultController extends Controller
      */
     public function index()
     {
-        //
+        return Response(Result::all());
     }
 
     /**
@@ -25,7 +26,10 @@ class ResultController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $result = new Result(); 
+        $result->createResult($request->all()); 
+   
+        return response()->json($result, 201); 
     }
 
     /**
@@ -34,9 +38,16 @@ class ResultController extends Controller
      * @param  \App\Models\Result  $result
      * @return \Illuminate\Http\Response
      */
-    public function show(Result $result)
+    public function show($id)
     {
-        //
+        $result = Result::find($id);
+
+        if ($result){
+
+            return new ResultResource($result);
+            // return Response($driver); 
+        }
+        return response()->json(" T'es qu'une merde ", 404);
     }
 
     /**
@@ -48,7 +59,9 @@ class ResultController extends Controller
      */
     public function update(Request $request, Result $result)
     {
-        //
+        $result->updateResult($request->all());
+
+        return response()->json($result, 200);
     }
 
     /**
@@ -59,6 +72,8 @@ class ResultController extends Controller
      */
     public function destroy(Result $result)
     {
-        //
+        $result->delete();
+
+        return response()->json('', 204); 
     }
 }

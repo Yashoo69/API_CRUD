@@ -29,8 +29,6 @@ class CircuitController extends Controller
         $circuit = new Circuit(); 
         $circuit->createCircuit($request->all()); 
    
-        
-
         return response()->json($circuit, 201); 
     }
 
@@ -61,7 +59,9 @@ class CircuitController extends Controller
      */
     public function update(Request $request, Circuit $circuit)
     {
-        //
+        $circuit->updateDriver($request->all());
+
+        return response()->json($circuit, 200);
     }
 
     /**
@@ -72,6 +72,8 @@ class CircuitController extends Controller
      */
     public function destroy(Circuit $circuit)
     {
-        //
+        $circuit->delete();
+
+        return response()->json('', 204); 
     }
 }
