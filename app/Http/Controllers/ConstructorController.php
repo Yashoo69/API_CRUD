@@ -13,10 +13,13 @@ class ConstructorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Response(Constructor::all());
-    }
+        if(count($request->all()) === 0){
+            return Response(Constructor::all());
+        } else {
+            return Response(Constructor::filterConstructor($request->all()));
+        }    }
 
     /**
      * Store a newly created resource in storage.
@@ -26,10 +29,10 @@ class ConstructorController extends Controller
      */
     public function store(Request $request)
     {
-        $constructor = new Constructor(); 
-        $constructor->createConstructor($request->all()); 
+        $constructor = new Constructor();
+        $constructor->createConstructor($request->all());
 
-        return response()->json($constructor, 201); 
+        return response()->json($constructor, 201);
 
     }
 
@@ -46,7 +49,7 @@ class ConstructorController extends Controller
         if ($constructor){
 
             return new ConstructorResource($constructor);
-            // return Response($driver); 
+            // return Response($driver);
         }
         return response()->json(" T'es qu'une merde ", 404);
     }
@@ -75,6 +78,6 @@ class ConstructorController extends Controller
     {
         $constructor->delete();
 
-        return response()->json('', 204); 
+        return response()->json('', 204);
     }
 }

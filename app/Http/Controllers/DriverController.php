@@ -15,10 +15,13 @@ class DriverController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function index()
+    public function index(Request $request)
     {
-        
-        return Response(Driver::all());
+        if(count($request->all()) === 0){
+            return Response(Driver::all());
+        } else {
+            return Response(Driver::filterDriver($request->all()));
+        }
     }
 
     /**
@@ -30,15 +33,15 @@ class DriverController extends Controller
     public function store(Request $request)
 
     {
-        // dd($request->input('driverRef')); 
-        // verified if data works 
+        // dd($request->input('driverRef'));
+        // verified if data works
 
-        $driver = new Driver(); 
-        $driver->createDriver($request->all()); 
-   
-        
+        $driver = new Driver();
+        $driver->createDriver($request->all());
 
-        return response()->json($driver, 201); 
+
+
+        return response()->json($driver, 201);
 
     }
 
@@ -55,7 +58,7 @@ class DriverController extends Controller
         if ($driver){
 
             return new DriverResource($driver);
-            // return Response($driver); 
+            // return Response($driver);
         }
         return response()->json(" T'es qu'une merde ", 404);
     }
@@ -85,7 +88,7 @@ class DriverController extends Controller
     {
         $driver->delete();
 
-        return response()->json('', 204); 
+        return response()->json('', 204);
     }
 
     public function search($surname)
