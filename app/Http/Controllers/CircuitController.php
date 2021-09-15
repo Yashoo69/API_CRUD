@@ -61,7 +61,9 @@ class CircuitController extends Controller
      */
     public function update(Request $request, Circuit $circuit)
     {
-        //
+        $circuit->updateCircuit($request->all());
+
+        return response()->json($circuit, 200);
     }
 
     /**
@@ -72,6 +74,13 @@ class CircuitController extends Controller
      */
     public function destroy(Circuit $circuit)
     {
-        //
+        $circuit->delete();
+
+        return response()->json('', 204); 
+    }
+    public function search($country)
+    {
+
+        return Circuit::where('country', 'like','%'. $country. '%')->get();
     }
 }

@@ -27,8 +27,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::apiResources([
     'drivers' => DriverController::class,
+    //'drivers/search' => DriverController::class,
     'races' => RaceController::class,
     'circuits' => CircuitController::class,
     'constructors' => ConstructorController::class,
     'results' => ResultController::class,
 ]);
+
+route::get('drivers/search/{surname}', [DriverController::class,'search']);
+
+route::get('circuits/search/{country}', [CircuitController::class,'search']);
