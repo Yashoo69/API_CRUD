@@ -17,7 +17,5 @@ class Circuit extends Model
     {
         return $this->hasMany(Race::class);
     }
-
-    public function createRace()
-    {}
+    
 }

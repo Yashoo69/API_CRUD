@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Race;
+use App\Models\Circuit;
 use Illuminate\Http\Request;
 use App\Http\Resources\RaceResource;
 
@@ -15,6 +16,10 @@ class RaceController extends Controller
      */
     public function index()
     {
+        $race = Race::with('circuit')
+            ->orderbyDesc(Circuit::select('name'))
+            ->paginate(100); 
+
         return Response(Race::all());
     }
 

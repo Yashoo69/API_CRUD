@@ -25,4 +25,6 @@ class Race extends Model
     {
         return $this->hasMany(Result::class);
     }
+
+    
 }

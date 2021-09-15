@@ -24,4 +24,6 @@ class Result extends Model
     public function constructor(){
         return $this->belongsTo(Constructor::class);
     }
+
+    
 }
