@@ -53,4 +53,21 @@ class Result extends Model
     public function updateResult($data) {
         $this->update($data);
     }
+
+    static function filterResult($data) {
+        $query = Result::query();
+        foreach($data as $key => $value){
+            if($key === "sort"){
+                $query->orderBy($value);
+            } elseif($key === "desc"){
+                $query->orderByDesc($value);
+            } elseif($key === "paginate"){
+                $query->paginate(intval($value));
+            } elseif($key != 'page') {
+                $query->where($key, $value);
+            }
+        }
+        $results = $query->get();
+        return $results;
+    }
 }
