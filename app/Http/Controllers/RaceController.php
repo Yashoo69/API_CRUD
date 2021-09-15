@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Race;
 use Illuminate\Http\Request;
+use App\Http\Resources\RaceResource;
 
 class RaceController extends Controller
 {
@@ -14,7 +15,7 @@ class RaceController extends Controller
      */
     public function index()
     {
-        //
+        return Response(Race::all());
     }
 
     /**
@@ -25,7 +26,10 @@ class RaceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $race = new Race(); 
+        $race->createCircuit($request->all()); 
+   
+        return response()->json($race, 201); 
     }
 
     /**
@@ -34,9 +38,16 @@ class RaceController extends Controller
      * @param  \App\Models\Race  $race
      * @return \Illuminate\Http\Response
      */
-    public function show(Race $race)
+    public function show($id)
     {
-        //
+        $race = Race::find($id);
+
+        if ($race){
+
+            return new RaceResource($race);
+            // return Response($driver); 
+        }
+        return response()->json(" T'es qu'une merde ", 404);
     }
 
     /**
@@ -48,7 +59,9 @@ class RaceController extends Controller
      */
     public function update(Request $request, Race $race)
     {
-        //
+        $race->updateRace($request->all());
+
+        return response()->json($race, 200);
     }
 
     /**
@@ -59,6 +72,8 @@ class RaceController extends Controller
      */
     public function destroy(Race $race)
     {
-        //
+        $race->delete();
+
+        return response()->json('', 204); 
     }
 }

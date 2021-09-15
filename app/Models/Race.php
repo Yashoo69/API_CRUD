@@ -15,7 +15,7 @@ class Race extends Model
 
     protected $fillable = [
         ''
-    ]
+    ];
 
     public function circuit(){
         return $this->belongsTo(Circuit::class);
