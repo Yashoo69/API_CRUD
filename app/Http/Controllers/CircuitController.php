@@ -59,7 +59,7 @@ class CircuitController extends Controller
      */
     public function update(Request $request, Circuit $circuit)
     {
-        $circuit->updateDriver($request->all());
+        $circuit->updateCircuit($request->all());
 
         return response()->json($circuit, 200);
     }
@@ -75,5 +75,10 @@ class CircuitController extends Controller
         $circuit->delete();
 
         return response()->json('', 204); 
+    }
+    public function search($country)
+    {
+
+        return Circuit::where('country', 'like','%'. $country. '%')->get();
     }
 }

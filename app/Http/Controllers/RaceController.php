@@ -17,7 +17,7 @@ class RaceController extends Controller
     public function index()
     {
         $race = Race::with('circuit')
-            ->orderbyDesc(Circuit::select('name'))
+
             ->paginate(100); 
 
         return Response(Race::all());

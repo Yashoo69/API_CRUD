@@ -87,4 +87,15 @@ class DriverController extends Controller
 
         return response()->json('', 204); 
     }
+
+    public function search($surname)
+    {
+
+        return Driver::where('surname', 'like','%'. $surname. '%')->get();
+    }
+
+
+
 }
+
+

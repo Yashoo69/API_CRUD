@@ -10,7 +10,7 @@ class Driver extends Model
     use HasFactory;
 
     protected $primaryKey = 'driverId';
-    
+
     protected $fillable = [
         'driverRef',
         'number',
@@ -36,9 +36,6 @@ class Driver extends Model
     }
 
     public function updateDriver($data) {
-
         $this->update($data);
-
     }
-
 }
