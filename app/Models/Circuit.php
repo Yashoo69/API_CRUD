@@ -18,6 +18,13 @@ class Circuit extends Model
         return $this->hasMany(Race::class);
     }
 
-    public function createRace()
-    {}
+    public function createCircuit($data) {
+        $circuit = Circuit::create($data);
+        $circuit->save();
+        return $circuit;
+    }
+
+    public function updateCircuit($data) {
+        $this->update($data);
+    }
 }

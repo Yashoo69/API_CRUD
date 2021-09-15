@@ -9,13 +9,20 @@ class Driver extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'driverId'; 
-
-    protected $hidden = ['created_at', 'updated_at']; 
+    protected $primaryKey = 'driverId';
 
     protected $fillable = [
-        
-    ]; 
+        'driverRef',
+        'number',
+        'code',
+        'forename',
+        'surname',
+        'dob',
+        'nationality',
+        'url'
+    ];
+
+    protected $hidden = ["created_at", "updated_at"];
 
     public function results()
     {
@@ -23,19 +30,12 @@ class Driver extends Model
     }
 
     public function createDriver($data) {
-
-        
-        $this ->driverRef = $data['driverRef']; 
-        $this ->forename = $data['forename']; ; 
-        $this ->surname = $data['surname']; ; 
-        $this ->url = $data['url']; ; 
-        $this ->save();
+        $driver = Driver::create($data);
+        $driver->save();
+        return $driver;
     }
 
     public function updateDriver($data) {
-
         $this->update($data);
-
     }
-
 }

@@ -24,4 +24,14 @@ class Result extends Model
     public function constructor(){
         return $this->belongsTo(Constructor::class);
     }
+
+    public function createResult($data) {
+        $result = Result::create($data);
+        $result->save();
+        return $result;
+    }
+
+    public function updateResult($data) {
+        $this->update($data);
+    }
 }

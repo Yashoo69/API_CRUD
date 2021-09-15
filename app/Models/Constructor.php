@@ -17,4 +17,14 @@ class Constructor extends Model
     {
         return $this->hasMany(Result::class);
     }
+
+    public function createConstructor($data) {
+        $constructor = Constructor::create($data);
+        $constructor->save();
+        return $constructor;
+    }
+
+    public function updateConstructor($data) {
+        $this->update($data);
+    }
 }
