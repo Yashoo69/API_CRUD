@@ -11,6 +11,25 @@ class Result extends Model
 
     protected $primaryKey ='resultId';
 
+    protected $fillable = [
+        'raceId',
+        'driverId',
+        'constructorId',
+        'number',
+        'grid',
+        'position',
+        'positiontext',
+        'positionOrder',
+        'points',
+        'laps',
+        'time',
+        'milliseconds',
+        'fastestLap',
+        'rank',
+        'fastestLapTime',
+        'fastestLapSpeed',
+    ];
+
     protected $hidden = ["created_at", "updated_at"];
 
     public function race(){

@@ -11,6 +11,17 @@ class Circuit extends Model
 
     protected $primaryKey ='circuitId';
 
+    protected $fillable = [
+        'circuitRef',
+        'name',
+        'location',
+        'country',
+        'lat',
+        'lng',
+        'alt',
+        'url',
+    ];
+
     protected $hidden = ["created_at", "updated_at"];
 
     public function races()
