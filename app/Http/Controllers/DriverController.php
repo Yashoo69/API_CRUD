@@ -17,6 +17,7 @@ class DriverController extends Controller
 
     public function index()
     {
+        
         return Response(Driver::all());
     }
 

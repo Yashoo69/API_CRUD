@@ -32,6 +32,7 @@ class Race extends Model
         return $this->hasMany(Result::class);
     }
 
+
     public function createRace($data) {
         $race = Race::create($data);
         $race->save();
@@ -42,3 +43,4 @@ class Race extends Model
         $this->update($data);
     }
 }
+

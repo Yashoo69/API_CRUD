@@ -34,4 +34,5 @@ class Constructor extends Model
     public function updateConstructor($data) {
         $this->update($data);
     }
+
 }
