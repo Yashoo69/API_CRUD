@@ -29,8 +29,6 @@ class CircuitController extends Controller
         $circuit = new Circuit(); 
         $circuit->createCircuit($request->all()); 
    
-        
-
         return response()->json($circuit, 201); 
     }
 
