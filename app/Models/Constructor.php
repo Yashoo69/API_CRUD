@@ -28,7 +28,8 @@ class Constructor extends Model
     public function createConstructor($data) {
         $constructor = Constructor::create($data);
         $constructor->save();
-        return $constructor;
+        return Constructor::find($constructor->constructorID);
+        
     }
 
     public function updateConstructor($data) {

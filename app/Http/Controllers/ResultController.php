@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Result;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\ResultResource;
 
 class ResultController extends Controller
@@ -30,8 +31,37 @@ class ResultController extends Controller
      */
     public function store(Request $request)
     {
+
+        $validator = Validator::make($request->all(), [
+            'raceId' => 'required|integer|exists:races,raceId',
+            'driverId' => 'required|integer|exists:drivers,driverId',
+            'constructorId' => 'required|integer|exists:constructors,constructorId', 
+
+            'grid' => 'required|integer|max:11',
+            'positionOrder' => 'required|integer|max:11',
+            'positiontext' => 'required|string|max:255',
+            'points' => 'required|float',
+            'laps' => 'required|integer|max:11', 
+            'time' => 'string|max:255',
+            'number' => 'integer/max:11',
+            'position' => 'integer/max:11',
+            'milliseconds' => 'integer/max:11',
+            'fastestLap' => 'integer/max:11',
+            'rank' => 'integer/max:11',
+            'fastestLapTime' => 'string|max:255',
+            'fastestLapSpeed' => 'string|max:255',
+
+        ]);
+
+        if ($validator->fails()) {
+          
+            return response()->json($validator->errors(), 400);
+                                  
+        }
+
+    
         $result = new Result();
-        $result->createResult($request->all());
+        $result = $result->createResult($request->all());
 
         return response()->json($result, 201);
     }
@@ -63,7 +93,35 @@ class ResultController extends Controller
      */
     public function update(Request $request, Result $result)
     {
-        $result->updateResult($request->all());
+
+        $validator = Validator::make($request->all(), [
+            'raceId' => 'required|integer|exists:races,raceId',
+            'driverId' => 'required|integer|exists:drivers,driverId',
+            'constructorId' => 'required|integer|exists:constructors,constructorId', 
+
+            'grid' => 'required|integer|max:11',
+            'positionOrder' => 'required|integer|max:11',
+            'positiontext' => 'required|string|max:255',
+            'points' => 'required|float',
+            'laps' => 'required|integer|max:11', 
+            'time' => 'string|max:255',
+            'number' => 'integer/max:11',
+            'position' => 'integer/max:11',
+            'milliseconds' => 'integer/max:11',
+            'fastestLap' => 'integer/max:11',
+            'rank' => 'integer/max:11',
+            'fastestLapTime' => 'string|max:255',
+            'fastestLapSpeed' => 'string|max:255',
+
+        ]);
+
+        if ($validator->fails()) {
+          
+            return response()->json($validator->errors(), 400);
+                                  
+        }
+
+        $result = $result->updateResult($request->all());
 
         return response()->json($result, 200);
     }
