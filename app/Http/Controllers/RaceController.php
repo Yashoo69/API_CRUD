@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Race;
-use App\Models\Circuit;
 use Illuminate\Http\Request;
 use App\Http\Resources\RaceResource;
 
@@ -14,13 +13,13 @@ class RaceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $race = Race::with('circuit')
-
-            ->paginate(100); 
-
-        return Response(Race::all());
+        if(count($request->all()) === 0){
+            return Response(Race::all());
+        } else {
+            return Response(Race::filterRace($request->all()));
+        }
     }
 
     /**
@@ -31,10 +30,10 @@ class RaceController extends Controller
      */
     public function store(Request $request)
     {
-        $race = new Race(); 
-        $race->createCircuit($request->all()); 
-   
-        return response()->json($race, 201); 
+        $race = new Race();
+        $race->createCircuit($request->all());
+
+        return response()->json($race, 201);
     }
 
     /**
@@ -48,11 +47,10 @@ class RaceController extends Controller
         $race = Race::find($id);
 
         if ($race){
-
             return new RaceResource($race);
-            // return Response($driver); 
+            // return Response($driver);
         }
-        return response()->json(" T'es qu'une merde ", 404);
+        return response()->json("Race not found", 404);
     }
 
     /**
@@ -79,6 +77,6 @@ class RaceController extends Controller
     {
         $race->delete();
 
-        return response()->json('', 204); 
+        return response()->json('', 204);
     }
 }

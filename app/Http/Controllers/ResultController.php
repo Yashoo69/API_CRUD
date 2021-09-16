@@ -13,9 +13,13 @@ class ResultController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Response(Result::all());
+        if(count($request->all()) === 0){
+            return Response(Result::all());
+        } else {
+            return Response(Result::filterResult($request->all()));
+        }
     }
 
     /**
@@ -26,10 +30,10 @@ class ResultController extends Controller
      */
     public function store(Request $request)
     {
-        $result = new Result(); 
-        $result->createResult($request->all()); 
-   
-        return response()->json($result, 201); 
+        $result = new Result();
+        $result->createResult($request->all());
+
+        return response()->json($result, 201);
     }
 
     /**
@@ -45,9 +49,9 @@ class ResultController extends Controller
         if ($result){
 
             return new ResultResource($result);
-            // return Response($driver); 
+            // return Response($driver);
         }
-        return response()->json(" T'es qu'une merde ", 404);
+        return response()->json("Result not found", 404);
     }
 
     /**
@@ -74,6 +78,6 @@ class ResultController extends Controller
     {
         $result->delete();
 
-        return response()->json('', 204); 
+        return response()->json('', 204);
     }
 }

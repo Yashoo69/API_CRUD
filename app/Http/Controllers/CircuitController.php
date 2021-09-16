@@ -13,9 +13,13 @@ class CircuitController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Response(Circuit::all());
+        if(count($request->all()) === 0){
+            return Response(Circuit::all());
+        } else {
+            return Response(Circuit::filterCircuit($request->all()));
+        }
     }
 
     /**
@@ -26,10 +30,10 @@ class CircuitController extends Controller
      */
     public function store(Request $request)
     {
-        $circuit = new Circuit(); 
-        $circuit->createCircuit($request->all()); 
-   
-        return response()->json($circuit, 201); 
+        $circuit = new Circuit();
+        $circuit->createCircuit($request->all());
+
+        return response()->json($circuit, 201);
     }
 
     /**
@@ -45,9 +49,9 @@ class CircuitController extends Controller
         if ($circuit){
 
             return new CircuitResource($circuit);
-            // return Response($driver); 
+            // return Response($driver);
         }
-        return response()->json(" T'es qu'une merde ", 404);
+        return response()->json("Circuit not found", 404);
     }
 
     /**
@@ -74,11 +78,10 @@ class CircuitController extends Controller
     {
         $circuit->delete();
 
-        return response()->json('', 204); 
+        return response()->json('', 204);
     }
     public function search($country)
     {
-
         return Circuit::where('country', 'like','%'. $country. '%')->get();
     }
 }

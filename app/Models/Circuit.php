@@ -39,5 +39,22 @@ class Circuit extends Model
     public function updateCircuit($data) {
         $this->update($data);
     }
+
+    static function filterCircuit($data) {
+        $query = Circuit::query();
+        foreach($data as $key => $value){
+            if($key === "sort"){
+                $query->orderBy($value);
+            } elseif($key === "desc"){
+                $query->orderByDesc($value);
+            } elseif($key === "paginate"){
+                $query->paginate(intval($value));
+            } elseif($key !== 'page') {
+                $query->where($key, $value);
+            }
+        }
+        $circuits = $query->get();
+        return $circuits;
+    }
 }
 

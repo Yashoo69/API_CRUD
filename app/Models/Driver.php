@@ -38,4 +38,21 @@ class Driver extends Model
     public function updateDriver($data) {
         $this->update($data);
     }
+
+    static function filterDriver($data) {
+        $query = Driver::query();
+        foreach($data as $key => $value){
+            if($key === "sort"){
+                $query->orderBy($value);
+            } elseif($key === "desc"){
+                $query->orderByDesc($value);
+            } elseif($key === "paginate"){
+                $query->paginate(intval($value));
+            } elseif($key != 'page') {
+                $query->where($key, $value);
+            }
+        }
+        $drivers = $query->get();
+        return $drivers;
+    }
 }

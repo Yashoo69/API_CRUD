@@ -35,4 +35,20 @@ class Constructor extends Model
         $this->update($data);
     }
 
+    static function filterConstructor($data) {
+        $query = Constructor::query();
+        foreach($data as $key => $value){
+            if($key === "sort"){
+                $query->orderBy($value);
+            } elseif($key === "desc"){
+                $query->orderByDesc($value);
+            } elseif($key === "paginate"){
+                $query->paginate(intval($value));
+            } elseif($key != 'page') {
+                $query->where($key, $value);
+            }
+        }
+        $constructors = $query->get();
+        return $constructors;
+    }
 }
