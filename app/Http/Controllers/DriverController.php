@@ -60,7 +60,7 @@ class DriverController extends Controller
             return new DriverResource($driver);
             // return Response($driver);
         }
-        return response()->json(" T'es qu'une merde ", 404);
+        return response()->json("Driver not found", 404);
     }
 
     /**

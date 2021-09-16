@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Race;
-use App\Models\Circuit;
 use Illuminate\Http\Request;
 use App\Http\Resources\RaceResource;
 
@@ -51,7 +50,7 @@ class RaceController extends Controller
             return new RaceResource($race);
             // return Response($driver);
         }
-        return response()->json(" T'es qu'une merde ", 404);
+        return response()->json("Race not found", 404);
     }
 
     /**

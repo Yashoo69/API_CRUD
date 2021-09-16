@@ -51,7 +51,7 @@ class ResultController extends Controller
             return new ResultResource($result);
             // return Response($driver);
         }
-        return response()->json(" T'es qu'une merde ", 404);
+        return response()->json("Result not found", 404);
     }
 
     /**

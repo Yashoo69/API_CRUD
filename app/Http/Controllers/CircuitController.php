@@ -51,7 +51,7 @@ class CircuitController extends Controller
             return new CircuitResource($circuit);
             // return Response($driver);
         }
-        return response()->json(" T'es qu'une merde ", 404);
+        return response()->json("Circuit not found", 404);
     }
 
     /**

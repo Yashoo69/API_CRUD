@@ -49,7 +49,7 @@ class Circuit extends Model
                 $query->orderByDesc($value);
             } elseif($key === "paginate"){
                 $query->paginate(intval($value));
-            } elseif($key != 'page') {
+            } elseif($key !== 'page') {
                 $query->where($key, $value);
             }
         }
