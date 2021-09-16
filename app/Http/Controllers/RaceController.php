@@ -16,9 +16,9 @@ class RaceController extends Controller
     public function index(Request $request)
     {
         if(count($request->all()) === 0){
-            return Response(RaceResource::collection(Race::with(['circuit'])->get()));
+            return RaceResource::collection(Race::with(['circuit'])->get())->response();
         } else {
-            return Response(RaceResource::collection(Race::filterRace($request->all())));
+            return RaceResource::collection(Race::filterRace($request->all()))->response();
         }
     }
 

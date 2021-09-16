@@ -16,9 +16,9 @@ class ResultController extends Controller
     public function index(Request $request)
     {
         if(count($request->all()) === 0){
-            return Response(Result::all());
+            return ResultResource::collection(Result::all());
         } else {
-            return Response(Result::filterResult($request->all()));
+            return ResultResource::collection(Result::filterResult($request->all()));
         }
     }
 
