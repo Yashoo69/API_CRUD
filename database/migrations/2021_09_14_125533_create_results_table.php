@@ -25,14 +25,15 @@ class CreateResultsTable extends Migration
             $table->integer('constructorId');
             $table->foreign('constructorId')->references('constructorId')->on('constructors');
 
-            $table->integer('number')->nullable();
-            $table->integer('grid')->default(0);
-            $table->integer('position')->nullable();
             $table->string('positiontext');
             $table->integer('positionOrder')->default(0);
-            $table->float('points')->default(0);
+            $table->integer('grid')->default(0);
             $table->integer('laps')->default(0);
+            $table->float('points')->default(0);
+
             $table->string('time')->nullable();
+            $table->integer('number')->nullable();
+            $table->integer('position')->nullable();
             $table->integer('milliseconds')->nullable();
             $table->integer('fastestLap')->nullable();
             $table->integer('rank')->nullable()->default(0);

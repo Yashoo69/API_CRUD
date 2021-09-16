@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\DriverResource;
 use App\Models\Driver;
+use Illuminate\Support\Facades\Validator;
 use Facade\FlareClient\Http\Response;
 use Illuminate\Http\Request;
 
@@ -33,11 +34,25 @@ class DriverController extends Controller
     public function store(Request $request)
 
     {
-        // dd($request->input('driverRef'));
-        // verified if data works
+        $validator = Validator::make($request->all(), [
+            'driverRef' => 'required|string|max:255',
+            'forename' => 'required|string|max:255',
+            'surname' => 'required|string|max:255',
+            'number' => 'integer|max:11',
+            'code' => 'string|max:255',
+            'dob' => 'date', 
+            'nationality' => 'string|max:255',
+            'url' => 'required|unique:drivers|string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+          
+            return response()->json($validator->errors(), 400);
+                                  
+        }
 
         $driver = new Driver();
-        $driver->createDriver($request->all());
+        $driver = $driver->createDriver($request->all());
 
 
 
@@ -73,7 +88,24 @@ class DriverController extends Controller
     public function update(Request $request, Driver $driver)
 
     {
-        $driver->updateDriver($request->all());
+        $validator = Validator::make($request->all(), [
+            'driverRef' => 'required|string|max:255',
+            'forename' => 'required|string|max:255',
+            'surname' => 'required|string|max:255',
+            'number' => 'integer|max:11',
+            'code' => 'string|max:255',
+            'dob' => 'date', 
+            'nationality' => 'string|max:255',
+            'url' => 'required|unique:drivers|string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+          
+            return response()->json($validator->errors(), 400);
+                                  
+        }
+        
+        $driver = $driver->updateDriver($request->all());
 
         return response()->json($driver, 200);
     }

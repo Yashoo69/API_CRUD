@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Race;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\RaceResource;
 
 class RaceController extends Controller
@@ -30,8 +31,28 @@ class RaceController extends Controller
      */
     public function store(Request $request)
     {
+
+        $validator = Validator::make($request->all(), [
+            'circuitId' => 'required|integer|exists:circuits,circuitId',
+            'year' => 'required|integer|max:11',
+            'round' => 'required|integer|max:11',
+            'name' => 'required|max:255',
+            'date' => 'required|date',
+            'time' => 'time', 
+            'url' => 'unique:races',
+
+            
+        ]);
+
+        if ($validator->fails()) {
+          
+            return response()->json($validator->errors(), 400);
+                                  
+        }
+
+
         $race = new Race();
-        $race->createCircuit($request->all());
+        $race = $race->createRace($request->all());
 
         return response()->json($race, 201);
     }
@@ -62,7 +83,27 @@ class RaceController extends Controller
      */
     public function update(Request $request, Race $race)
     {
-        $race->updateRace($request->all());
+
+        $validator = Validator::make($request->all(), [
+            'circuitId' => 'required|integer|exists:circuits,circuitId',
+            'year' => 'required|integer|max:11',
+            'round' => 'required|integer|max:11',
+            'name' => 'required|max:255',
+            'date' => 'required|date',
+            'time' => 'time', 
+            'url' => 'unique:races',
+
+            
+        ]);
+
+        if ($validator->fails()) {
+          
+            return response()->json($validator->errors(), 400);
+                                  
+        }
+
+        
+        $race = $race->updateRace($request->all());
 
         return response()->json($race, 200);
     }

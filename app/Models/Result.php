@@ -47,7 +47,7 @@ class Result extends Model
     public function createResult($data) {
         $result = Result::create($data);
         $result->save();
-        return $result;
+        return Result::find($result->resultId);
     }
 
     public function updateResult($data) {

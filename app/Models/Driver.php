@@ -32,7 +32,7 @@ class Driver extends Model
     public function createDriver($data) {
         $driver = Driver::create($data);
         $driver->save();
-        return $driver;
+        return Driver::find($driver->driverId);
     }
 
     public function updateDriver($data) {

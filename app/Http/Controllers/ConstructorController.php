@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Constructor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\ConstructorResource;
 
 class ConstructorController extends Controller
@@ -29,8 +30,21 @@ class ConstructorController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'constructorRef' => 'required|max:255',
+            'name' => 'required|string|unique:constructors|max:255',
+            'url' => 'required|string|max:255',
+            'nationality' => 'string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+          
+            return response()->json($validator->errors(), 400);
+                                  
+        }
+
         $constructor = new Constructor();
-        $constructor->createConstructor($request->all());
+        $constructor = $constructor->createConstructor($request->all());
 
         return response()->json($constructor, 201);
 
@@ -63,7 +77,20 @@ class ConstructorController extends Controller
      */
     public function update(Request $request, Constructor $constructor)
     {
-        $constructor->updateConstructor($request->all());
+        $validator = Validator::make($request->all(), [
+            'constructorRef' => 'required|max:255',
+            'name' => 'required|string|unique:constructors|max:255',
+            'nationality' => 'string|max:255',
+            'url' => 'required|string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+          
+            return response()->json($validator->errors(), 400);
+                                  
+        }
+
+        $constructor = $constructor->updateConstructor($request->all());
 
         return response()->json($constructor, 200);
     }

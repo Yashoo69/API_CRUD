@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Circuit;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\CircuitResource;
 
 class CircuitController extends Controller
@@ -30,8 +32,25 @@ class CircuitController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'circuitRef' => 'required|max:255',
+            'name' => 'required|string|max:255',
+            'url' => 'required|unique:circuits|max:255',
+            'country' => 'string|max:255', 
+            'location' => 'string|max:255', 
+            'lat' => 'float', 
+            'lng' => 'float',
+            'alt' => 'integer|max:11',
+        ]);
+
+        if ($validator->fails()) {
+          
+            return response()->json($validator->errors(), 400);
+                                  
+        }
+
         $circuit = new Circuit();
-        $circuit->createCircuit($request->all());
+        $circuit = $circuit->createCircuit($request->all());
 
         return response()->json($circuit, 201);
     }
@@ -63,7 +82,24 @@ class CircuitController extends Controller
      */
     public function update(Request $request, Circuit $circuit)
     {
-        $circuit->updateCircuit($request->all());
+        $validator = Validator::make($request->all(), [
+            'circuitRef' => 'required|max:255',
+            'name' => 'required|string|max:255',
+            'url' => 'required|unique:circuits|max:255',
+            'country' => 'string|max:255', 
+            'location' => 'string|max:255', 
+            'lat' => 'float', 
+            'lng' => 'float',
+            'alt' => 'integer|max:11',
+        ]);
+
+        if ($validator->fails()) {
+          
+            return response()->json($validator->errors(), 400);
+                                  
+        }
+
+        $circuit = $circuit->updateCircuit($request->all());
 
         return response()->json($circuit, 200);
     }
