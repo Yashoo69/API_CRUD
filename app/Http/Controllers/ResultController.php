@@ -17,7 +17,7 @@ class ResultController extends Controller
     public function index(Request $request)
     {
         if(count($request->all()) === 0){
-            return ResultResource::collection(Result::all());
+            return ResultResource::collection(Result::with(['race.circuit'])->get());
         } else {
             return ResultResource::collection(Result::filterResult($request->all()));
         }
@@ -35,13 +35,13 @@ class ResultController extends Controller
         $validator = Validator::make($request->all(), [
             'raceId' => 'required|integer|exists:races,raceId',
             'driverId' => 'required|integer|exists:drivers,driverId',
-            'constructorId' => 'required|integer|exists:constructors,constructorId', 
+            'constructorId' => 'required|integer|exists:constructors,constructorId',
 
             'grid' => 'required|integer|max:11',
             'positionOrder' => 'required|integer|max:11',
             'positiontext' => 'required|string|max:255',
             'points' => 'required|float',
-            'laps' => 'required|integer|max:11', 
+            'laps' => 'required|integer|max:11',
             'time' => 'string|max:255',
             'number' => 'integer/max:11',
             'position' => 'integer/max:11',
@@ -54,12 +54,12 @@ class ResultController extends Controller
         ]);
 
         if ($validator->fails()) {
-          
+
             return response()->json($validator->errors(), 400);
-                                  
+
         }
 
-    
+
         $result = new Result();
         $result = $result->createResult($request->all());
 
@@ -74,7 +74,7 @@ class ResultController extends Controller
      */
     public function show($id)
     {
-        $result = Result::find($id);
+        $result = Result::with(['race.circuit'])->find($id);
 
         if ($result){
 
@@ -97,13 +97,13 @@ class ResultController extends Controller
         $validator = Validator::make($request->all(), [
             'raceId' => 'required|integer|exists:races,raceId',
             'driverId' => 'required|integer|exists:drivers,driverId',
-            'constructorId' => 'required|integer|exists:constructors,constructorId', 
+            'constructorId' => 'required|integer|exists:constructors,constructorId',
 
             'grid' => 'required|integer|max:11',
             'positionOrder' => 'required|integer|max:11',
             'positiontext' => 'required|string|max:255',
             'points' => 'required|float',
-            'laps' => 'required|integer|max:11', 
+            'laps' => 'required|integer|max:11',
             'time' => 'string|max:255',
             'number' => 'integer/max:11',
             'position' => 'integer/max:11',
@@ -116,9 +116,9 @@ class ResultController extends Controller
         ]);
 
         if ($validator->fails()) {
-          
+
             return response()->json($validator->errors(), 400);
-                                  
+
         }
 
         $result = $result->updateResult($request->all());

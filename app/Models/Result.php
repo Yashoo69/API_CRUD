@@ -55,7 +55,7 @@ class Result extends Model
     }
 
     static function filterResult($data) {
-        $query = Result::query();
+        $query = Result::with(['race.circuit']);
         foreach($data as $key => $value){
             if($key === "sort"){
                 $query->orderBy($value);

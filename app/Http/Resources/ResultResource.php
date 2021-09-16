@@ -14,6 +14,7 @@ class ResultResource extends JsonResource
      */
     public function toArray($request)
     {
+        $race = $this->whenLoaded('race');
         return [
             'id' => $this->resultId,
             'number' => $this->number,
@@ -29,7 +30,7 @@ class ResultResource extends JsonResource
             'rank' => $this->rank,
             'fastestLapTime' => $this->fastestLapTime,
             'fastestLapSpeed' => $this->fastestLapSpeed,
-            'race' => $this->race,
+            'race' => new RaceResource($race),
             'driver' => $this->driver,
             'constructor' => $this->constructor
         ];
