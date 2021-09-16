@@ -36,7 +36,7 @@ class Race extends Model
     public function createRace($data) {
         $race = Race::create($data);
         $race->save();
-        return $race;
+        return Race::find($race->raceId);
     }
 
     public function updateRace($data) {

@@ -33,7 +33,7 @@ class Circuit extends Model
     public function createCircuit($data) {
         $circuit = Circuit::create($data);
         $circuit->save();
-        return $circuit;
+        return Circuit::find($circuit->circuitId);
     }
 
     public function updateCircuit($data) {

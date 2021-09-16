@@ -16,7 +16,7 @@ class CreateCircuitsTable extends Migration
         Schema::create('circuits', function (Blueprint $table) {
             $table->id('circuitId');
             $table->string('circuitRef');
-            $table->integer('name');
+            $table->string('name');
             $table->string('location')->nullable();
             $table->string('country')->nullable();
             $table->float('lat')->nullable();
