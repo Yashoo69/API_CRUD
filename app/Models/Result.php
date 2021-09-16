@@ -33,15 +33,15 @@ class Result extends Model
     protected $hidden = ["created_at", "updated_at"];
 
     public function race(){
-        return $this->belongsTo(Race::class);
+        return $this->belongsTo(Race::class, 'raceId');
     }
 
     public function driver(){
-        return $this->belongsTo(Driver::class);
+        return $this->belongsTo(Driver::class, 'driverId');
     }
 
     public function constructor(){
-        return $this->belongsTo(Constructor::class);
+        return $this->belongsTo(Constructor::class, 'constructorId');
     }
 
     public function createResult($data) {

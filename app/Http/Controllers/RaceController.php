@@ -16,9 +16,9 @@ class RaceController extends Controller
     public function index(Request $request)
     {
         if(count($request->all()) === 0){
-            return Response(Race::all());
+            return Response(RaceResource::collection(Race::with(['circuit'])->get()));
         } else {
-            return Response(Race::filterRace($request->all()));
+            return Response(RaceResource::collection(Race::filterRace($request->all())));
         }
     }
 
@@ -31,7 +31,7 @@ class RaceController extends Controller
     public function store(Request $request)
     {
         $race = new Race();
-        $race->createCircuit($request->all());
+        $race->createRace($request->all());
 
         return response()->json($race, 201);
     }
@@ -44,7 +44,7 @@ class RaceController extends Controller
      */
     public function show($id)
     {
-        $race = Race::find($id);
+        $race = Race::with(['circuit'])->find($id);
 
         if ($race){
             return new RaceResource($race);

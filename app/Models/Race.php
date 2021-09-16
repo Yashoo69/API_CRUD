@@ -24,12 +24,12 @@ class Race extends Model
     protected $hidden = ["created_at", "updated_at"];
 
     public function circuit(){
-        return $this->belongsTo(Circuit::class);
+        return $this->belongsTo(Circuit::class, 'circuitId');
     }
 
     public function results()
     {
-        return $this->hasMany(Result::class);
+        return $this->hasMany(Result::class, 'raceId');
     }
 
 
@@ -44,7 +44,7 @@ class Race extends Model
     }
 
     static function filterRace($data) {
-        $query = Race::query();
+        $query = Race::with(['circuit']);
         foreach($data as $key => $value){
             if($key === "sort"){
                 $query->orderBy($value);

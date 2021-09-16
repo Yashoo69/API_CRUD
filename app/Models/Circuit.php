@@ -26,7 +26,7 @@ class Circuit extends Model
 
     public function races()
     {
-        return $this->hasMany(Race::class);
+        return $this->hasMany(Race::class, "circuitId");
     }
 
 
@@ -41,7 +41,7 @@ class Circuit extends Model
     }
 
     static function filterCircuit($data) {
-        $query = Circuit::query();
+        $query = Circuit::with(['races']);
         foreach($data as $key => $value){
             if($key === "sort"){
                 $query->orderBy($value);

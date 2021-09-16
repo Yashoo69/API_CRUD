@@ -16,9 +16,9 @@ class CircuitController extends Controller
     public function index(Request $request)
     {
         if(count($request->all()) === 0){
-            return Response(Circuit::all());
+            return CircuitResource::collection(Circuit::with(['races'])->get())->response();
         } else {
-            return Response(Circuit::filterCircuit($request->all()));
+            return CircuitResource::collection(Circuit::filterCircuit($request->all()))->response();
         }
     }
 
@@ -44,7 +44,7 @@ class CircuitController extends Controller
      */
     public function show($id)
     {
-        $circuit = Circuit::find($id);
+        $circuit = Circuit::with(['races'])->find($id);
 
         if ($circuit){
 
