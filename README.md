@@ -3,16 +3,10 @@
 - Récuperer le lien Git.
 - Télécharger le lien et installer dans le dossier desiré.
 - Créer un fichier database/data/database.sqlite
-- Coller votre fichier .env et placer dans 
-DB_DATABASE=
-le lien absolu du fichier 
-database.sqlite
-- Dans le terminal à l'emplacement du dossier faire un 
-composer install
- puis un 
-php artisan migrate:fresh --seed
-- Terminer par un 
-php artisan serve
+- Coller votre fichier .env  
+- Placer dans DB_DATABASE= le lien absolu du fichier database.sqlite
+- Dans le terminal à l'emplacement du dossier faire un composer install puis un php artisan migrate:fresh --seed
+- Terminer par un `php artisan serve`
 `
 ### Postman
 ------------
@@ -93,3 +87,6 @@ Pour combiner plusoieurs filtres à la fois il suffit de les séparer par le sig
 ```
     ex: http://127.0.0.1:8000/api/drivers?nationality=German&sort=number&paginate=10&page=2
 ```
+
+------------------
+ #### Created by: Lênaic Dujour, Thomas Vidal and Anthony Melinand.
