@@ -39,7 +39,7 @@ class ResultController extends Controller
 
             'grid' => 'required|integer|max:11',
             'positionOrder' => 'required|integer|max:11',
-            'positiontext' => 'required|string|max:255',
+            'positionText' => 'required|string|max:255',
             'points' => 'required|float',
             'laps' => 'required|integer|max:11', 
             'time' => 'string|max:255',
@@ -101,7 +101,7 @@ class ResultController extends Controller
 
             'grid' => 'required|integer|max:11',
             'positionOrder' => 'required|integer|max:11',
-            'positiontext' => 'required|string|max:255',
+            'positionText' => 'required|string|max:255',
             'points' => 'required|float',
             'laps' => 'required|integer|max:11', 
             'time' => 'string|max:255',
