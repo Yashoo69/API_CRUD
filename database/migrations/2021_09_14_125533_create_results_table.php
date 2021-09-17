@@ -25,7 +25,7 @@ class CreateResultsTable extends Migration
             $table->integer('constructorId');
             $table->foreign('constructorId')->references('constructorId')->on('constructors')->onDelete('cascade')->onUpdate('cascade');
 
-            $table->string('positiontext');
+            $table->string('positionText');
             $table->integer('positionOrder')->default(0);
             $table->integer('grid')->default(0);
             $table->integer('laps')->default(0);
