@@ -78,7 +78,7 @@ class Result extends Model
             'constructorId' => 'required|integer|exists:constructors,constructorId',
             'grid' => 'required|integer',
             'positionOrder' => 'required|integer',
-            'positiontext' => 'required|string|max:255',
+            'positionText' => 'required|string|max:255',
             'points' => 'required|numeric',
             'laps' => 'required|integer',
             'time' => 'nullable|string|max:255',
