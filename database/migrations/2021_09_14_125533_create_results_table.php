@@ -16,14 +16,14 @@ class CreateResultsTable extends Migration
         Schema::create('results', function (Blueprint $table) {
             $table->id('resultId');
 
-            $table->integer('raceId'); 
-            $table->foreign('raceId')->references('raceId')->on('races');
+            $table->integer('raceId');
+            $table->foreign('raceId')->references('raceId')->on('races')->onDelete('cascade')->onUpdate('cascade');
 
-            $table->integer('driverId'); 
-            $table->foreign('driverId')->references('driverId')->on('drivers');
+            $table->integer('driverId');
+            $table->foreign('driverId')->references('driverId')->on('drivers')->onDelete('cascade')->onUpdate('cascade');
 
             $table->integer('constructorId');
-            $table->foreign('constructorId')->references('constructorId')->on('constructors');
+            $table->foreign('constructorId')->references('constructorId')->on('constructors')->onDelete('cascade')->onUpdate('cascade');
 
             $table->string('positiontext');
             $table->integer('positionOrder')->default(0);

@@ -20,7 +20,8 @@ class ConstructorController extends Controller
             return Response(Constructor::all());
         } else {
             return Response(Constructor::filterConstructor($request->all()));
-        }    }
+        }
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -36,16 +37,11 @@ class ConstructorController extends Controller
             'url' => 'required|string|max:255',
             'nationality' => 'string|max:255',
         ]);
-
         if ($validator->fails()) {
-          
             return response()->json($validator->errors(), 400);
-                                  
         }
-
         $constructor = new Constructor();
         $constructor = $constructor->createConstructor($request->all());
-
         return response()->json($constructor, 201);
 
     }
@@ -53,17 +49,14 @@ class ConstructorController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Constructor  $constructor
+     * @param  \int $id $constructor
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
         $constructor = Constructor::find($id);
-
         if ($constructor){
-
-            return new ConstructorResource($constructor);
-            // return Response($driver);
+            return new ConstructorResource($constructor);// return Response($driver);
         }
         return response()->json("Constructor not found", 404);
     }
@@ -72,39 +65,41 @@ class ConstructorController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Constructor  $constructor
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Constructor $constructor)
+    public function update(Request $request, int $id)
     {
-        $validator = Validator::make($request->all(), [
-            'constructorRef' => 'required|max:255',
-            'name' => 'required|string|unique:constructors|max:255',
-            'nationality' => 'string|max:255',
-            'url' => 'required|string|max:255',
-        ]);
-
-        if ($validator->fails()) {
-          
-            return response()->json($validator->errors(), 400);
-                                  
+        $constructor = Constructor::find($id);
+        if($constructor){
+            $validator = Validator::make($request->all(), [
+                'constructorRef' => 'required|max:255',
+                'name' => 'required|string|unique:constructors|max:255',
+                'nationality' => 'string|max:255',
+                'url' => 'required|string|max:255',
+            ]);
+            if ($validator->fails()) {
+                return response()->json($validator->errors(), 400);
+            }
+            $constructor = $constructor->updateConstructor($request->all());
+            return response()->json('Constructor succefully deleted', 200);
         }
-
-        $constructor = $constructor->updateConstructor($request->all());
-
-        return response()->json($constructor, 200);
+        return response()->json('Constructor not found', 404);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Constructor  $constructor
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Constructor $constructor)
+    public function destroy(int $id)
     {
-        $constructor->delete();
-
-        return response()->json('', 204);
+        $constructor = Constructor::find($id);
+        if($constructor){
+            $constructor->delete();
+            return response()->json('Constructor succefully deleted', 204);
+        }
+        return response()->json('Constructor not found', 404);
     }
 }

@@ -40,40 +40,29 @@ class DriverController extends Controller
             'surname' => 'required|string|max:255',
             'number' => 'integer|max:11',
             'code' => 'string|max:255',
-            'dob' => 'date', 
+            'dob' => 'date',
             'nationality' => 'string|max:255',
             'url' => 'required|unique:drivers|string|max:255',
         ]);
-
         if ($validator->fails()) {
-          
             return response()->json($validator->errors(), 400);
-                                  
         }
-
         $driver = new Driver();
         $driver = $driver->createDriver($request->all());
-
-
-
         return response()->json($driver, 201);
-
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Driver  $driver
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
         $driver = Driver::find($id);
-
         if ($driver){
-
-            return new DriverResource($driver);
-            // return Response($driver);
+            return new DriverResource($driver);// return Response($driver);
         }
         return response()->json("Driver not found", 404);
     }
@@ -82,55 +71,51 @@ class DriverController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Driver  $driver
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Driver $driver)
-
-    {
-        $validator = Validator::make($request->all(), [
-            'driverRef' => 'required|string|max:255',
-            'forename' => 'required|string|max:255',
-            'surname' => 'required|string|max:255',
-            'number' => 'integer|max:11',
-            'code' => 'string|max:255',
-            'dob' => 'date', 
-            'nationality' => 'string|max:255',
-            'url' => 'required|unique:drivers|string|max:255',
-        ]);
-
-        if ($validator->fails()) {
-          
-            return response()->json($validator->errors(), 400);
-                                  
+    public function update(Request $request, int $id){
+        $driver = Driver::find($id);
+        if($driver){
+            $validator = Validator::make($request->all(), [
+                'driverRef' => 'required|string|max:255',
+                'forename' => 'required|string|max:255',
+                'surname' => 'required|string|max:255',
+                'number' => 'integer|max:11',
+                'code' => 'string|max:255',
+                'dob' => 'date',
+                'nationality' => 'string|max:255',
+                'url' => 'required|unique:drivers|string|max:255',
+            ]);
+            if ($validator->fails()) {
+                return response()->json($validator->errors(), 400);
+            }
+            $driver = $driver->updateDriver($request->all());
+            return response()->json($driver, 200);
         }
-        
-        $driver = $driver->updateDriver($request->all());
-
-        return response()->json($driver, 200);
+        return response()->json('Driver not found', 404);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Driver  $driver
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Driver $driver)
+    public function destroy(int $id)
     {
-        $driver->delete();
-
-        return response()->json('', 204);
+        $driver = Driver::find($id);
+        if($driver){
+            $driver->delete();
+            return response()->json('Driver succefully deleted', 204);
+        }
+        return response()->json('Driver not found', 404);
     }
 
     public function search($surname)
     {
-
         return Driver::where('surname', 'like','%'. $surname. '%')->get();
     }
-
-
-
 }
 
 

@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Validation\Rule;
 use Illuminate\Database\Eloquent\Model;
+use phpDocumentor\Reflection\Types\Boolean;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Circuit extends Model
 {
@@ -55,6 +57,30 @@ class Circuit extends Model
         }
         $circuits = $query->get();
         return $circuits;
+    }
+
+    static function rules($update = false,  $data = [], $id = 0){
+        $rules = [
+            'circuitRef' => 'required|max:255',
+            'name' => 'required|string|max:255',
+            'url' => 'required|max:255|unique:circuits,url,' . $id . ',circuitId',
+            'country' => 'string|max:255',
+            'location' => 'string|max:255',
+            'lat' => 'numeric',
+            'lng' => 'numeric',
+            'alt' => 'integer|max:11',
+        ];
+        if($update) {
+            $customRules = [];
+            foreach(array_keys($data) as $key){
+                if(array_key_exists($key, $rules)){
+                    $customRules[$key] = $rules[$key];
+                }
+            }
+            return $customRules;
+        } else {
+            return $rules;
+        }
     }
 }
 

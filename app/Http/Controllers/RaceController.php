@@ -31,7 +31,6 @@ class RaceController extends Controller
      */
     public function store(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'circuitId' => 'required|integer|exists:circuits,circuitId',
             'year' => 'required|integer|max:11',
@@ -40,21 +39,12 @@ class RaceController extends Controller
             'date' => 'required|date',
             'time' => 'time',
             'url' => 'unique:races',
-
-
         ]);
-
         if ($validator->fails()) {
-
             return response()->json($validator->errors(), 400);
-
         }
-
-
         $race = new Race();
-
         $race = $race->createRace($request->all());
-
         return response()->json($race, 201);
     }
 
@@ -67,10 +57,8 @@ class RaceController extends Controller
     public function show($id)
     {
         $race = Race::with(['circuit'])->find($id);
-
         if ($race){
-            return new RaceResource($race);
-            // return Response($driver);
+            return new RaceResource($race);         // return Response($driver);
         }
         return response()->json("Race not found", 404);
     }
@@ -84,7 +72,6 @@ class RaceController extends Controller
      */
     public function update(Request $request, Race $race)
     {
-
         $validator = Validator::make($request->all(), [
             'circuitId' => 'required|integer|exists:circuits,circuitId',
             'year' => 'required|integer|max:11',
@@ -93,19 +80,11 @@ class RaceController extends Controller
             'date' => 'required|date',
             'time' => 'time',
             'url' => 'unique:races',
-
-
         ]);
-
         if ($validator->fails()) {
-
             return response()->json($validator->errors(), 400);
-
         }
-
-
         $race = $race->updateRace($request->all());
-
         return response()->json($race, 200);
     }
 
@@ -118,7 +97,6 @@ class RaceController extends Controller
     public function destroy(Race $race)
     {
         $race->delete();
-
         return response()->json('', 204);
     }
 }

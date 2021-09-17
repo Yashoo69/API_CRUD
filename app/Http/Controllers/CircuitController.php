@@ -32,43 +32,26 @@ class CircuitController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'circuitRef' => 'required|max:255',
-            'name' => 'required|string|max:255',
-            'url' => 'required|unique:circuits|max:255',
-            'country' => 'string|max:255', 
-            'location' => 'string|max:255', 
-            'lat' => 'float', 
-            'lng' => 'float',
-            'alt' => 'integer|max:11',
-        ]);
-
+        $validator = Validator::make($request->all(),Circuit::rules());
         if ($validator->fails()) {
-          
             return response()->json($validator->errors(), 400);
-                                  
         }
-
         $circuit = new Circuit();
         $circuit = $circuit->createCircuit($request->all());
-
         return response()->json($circuit, 201);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Circuit  $circuit
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
         $circuit = Circuit::with(['races'])->find($id);
-
         if ($circuit){
-
-            return new CircuitResource($circuit);
-            // return Response($driver);
+            return new CircuitResource($circuit);  //return Response($driver);
         }
         return response()->json("Circuit not found", 404);
     }
@@ -77,45 +60,39 @@ class CircuitController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Circuit  $circuit
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Circuit $circuit)
+    public function update(Request $request, int $id)
     {
-        $validator = Validator::make($request->all(), [
-            'circuitRef' => 'required|max:255',
-            'name' => 'required|string|max:255',
-            'url' => 'required|unique:circuits|max:255',
-            'country' => 'string|max:255', 
-            'location' => 'string|max:255', 
-            'lat' => 'float', 
-            'lng' => 'float',
-            'alt' => 'integer|max:11',
-        ]);
-
-        if ($validator->fails()) {
-          
-            return response()->json($validator->errors(), 400);
-                                  
+        $circuit = Circuit::find($id);
+        if($circuit){
+            $validator = Validator::make($request->all(), Circuit::rules(true, $request->all(), $id));
+            if ($validator->fails()) {
+                return response()->json($validator->errors(), 400);
+            }
+            $circuit = $circuit->updateCircuit($request->all());
+            return response()->json('Circuit succefully updated', 200);
         }
-
-        $circuit = $circuit->updateCircuit($request->all());
-
-        return response()->json($circuit, 200);
+        return response()->json('Circuit not found', 404);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Circuit  $circuit
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Circuit $circuit)
+    public function destroy(int $id)
     {
-        $circuit->delete();
-
-        return response()->json('', 204);
+        $circuit = Circuit::find($id);
+        if($circuit){
+            $circuit->delete();
+            return response()->json('Circuit succefully deleted', 204);
+        }
+        return response()->json('Circuit not found', 404);
     }
+
     public function search($country)
     {
         return Circuit::where('country', 'like','%'. $country. '%')->get();
