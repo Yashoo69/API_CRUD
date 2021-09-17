@@ -55,4 +55,28 @@ class Driver extends Model
         $drivers = $query->get();
         return $drivers;
     }
+
+    static function rules($update = false,  $data = [], $id = 0){
+        $rules = [
+            'driverRef' => 'required|string|max:255',
+            'forename' => 'required|string|max:255',
+            'surname' => 'required|string|max:255',
+            'number' => 'integer|max:11',
+            'code' => 'string|max:255',
+            'dob' => 'date',
+            'nationality' => 'string|max:255',
+            'url' => 'required|string|max:255|unique:drivers,url,' . $id . ',driverId',
+        ];
+        if($update) {
+            $customRules = [];
+            foreach(array_keys($data) as $key){
+                if(array_key_exists($key, $rules)){
+                    $customRules[$key] = $rules[$key];
+                }
+            }
+            return $customRules;
+        } else {
+            return $rules;
+        }
+    }
 }

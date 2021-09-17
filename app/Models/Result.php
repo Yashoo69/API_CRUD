@@ -70,4 +70,36 @@ class Result extends Model
         $results = $query->get();
         return $results;
     }
+
+    static function rules($update = false,  $data = [], $id = 0){
+        $rules = [
+            'raceId' => 'required|integer|exists:races,raceId',
+            'driverId' => 'required|integer|exists:drivers,driverId',
+            'constructorId' => 'required|integer|exists:constructors,constructorId',
+            'grid' => 'required|integer|max:11',
+            'positionOrder' => 'required|integer|max:11',
+            'positiontext' => 'required|string|max:255',
+            'points' => 'required|numeric',
+            'laps' => 'required|integer|max:11',
+            'time' => 'string|max:255',
+            'number' => 'integer|max:11',
+            'position' => 'integer|max:11',
+            'milliseconds' => 'integer|max:11',
+            'fastestLap' => 'integer|max:11',
+            'rank' => 'integer|max:11',
+            'fastestLapTime' => 'string|max:255',
+            'fastestLapSpeed' => 'string|max:255',
+        ];
+        if($update) {
+            $customRules = [];
+            foreach(array_keys($data) as $key){
+                if(array_key_exists($key, $rules)){
+                    $customRules[$key] = $rules[$key];
+                }
+            }
+            return $customRules;
+        } else {
+            return $rules;
+        }
+    }
 }

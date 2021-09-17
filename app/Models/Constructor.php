@@ -28,7 +28,7 @@ class Constructor extends Model
     public function createConstructor($data) {
         $constructor = Constructor::create($data);
         $constructor->save();
-        return Constructor::find($constructor->constructorID);
+        return Constructor::find($constructor->constructorId);
     }
 
     public function updateConstructor($data) {
@@ -50,5 +50,25 @@ class Constructor extends Model
         }
         $constructors = $query->get();
         return $constructors;
+    }
+
+    static function rules($update = false,  $data = [], $id = 0){
+        $rules = [
+            'constructorRef' => 'required|max:255',
+            'name' => 'required|string|max:255|unique:constructors,name,' . $id . ',contructorId',
+            'url' => 'required|string|max:255',
+            'nationality' => 'string|max:255',
+        ];
+        if($update) {
+            $customRules = [];
+            foreach(array_keys($data) as $key){
+                if(array_key_exists($key, $rules)){
+                    $customRules[$key] = $rules[$key];
+                }
+            }
+            return $customRules;
+        } else {
+            return $rules;
+        }
     }
 }

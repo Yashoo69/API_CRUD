@@ -31,24 +31,7 @@ class ResultController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'raceId' => 'required|integer|exists:races,raceId',
-            'driverId' => 'required|integer|exists:drivers,driverId',
-            'constructorId' => 'required|integer|exists:constructors,constructorId',
-            'grid' => 'required|integer|max:11',
-            'positionOrder' => 'required|integer|max:11',
-            'positiontext' => 'required|string|max:255',
-            'points' => 'required|numeric',
-            'laps' => 'required|integer|max:11',
-            'time' => 'string|max:255',
-            'number' => 'integer/max:11',
-            'position' => 'integer/max:11',
-            'milliseconds' => 'integer/max:11',
-            'fastestLap' => 'integer/max:11',
-            'rank' => 'integer/max:11',
-            'fastestLapTime' => 'string|max:255',
-            'fastestLapSpeed' => 'string|max:255',
-        ]);
+        $validator = Validator::make($request->all(), Result::rules());
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
@@ -83,8 +66,7 @@ class ResultController extends Controller
     {
         $result = Result::find($id);
         if($result){
-            $validator = Validator::make($request->all(), [
-            ]);
+            $validator = Validator::make($request->all(), Result::rules(true, $request->all(), $id));
             if ($validator->fails()) {
                 return response()->json($validator->errors(), 400);
             }

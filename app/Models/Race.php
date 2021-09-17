@@ -59,5 +59,28 @@ class Race extends Model
         $races = $query->get();
         return $races;
     }
+
+    static function rules($update = false,  $data = [], $id = 0){
+        $rules = [
+            'circuitId' => 'required|integer|exists:circuits,circuitId',
+            'year' => 'required|integer|size:4',
+            'round' => 'required|integer|max:11',
+            'name' => 'required|max:255',
+            'date' => 'required|date',
+            'time' => 'time',
+            'url' => 'unique:races,url,' . $id . ',raceId',
+        ];
+        if($update) {
+            $customRules = [];
+            foreach(array_keys($data) as $key){
+                if(array_key_exists($key, $rules)){
+                    $customRules[$key] = $rules[$key];
+                }
+            }
+            return $customRules;
+        } else {
+            return $rules;
+        }
+    }
 }
 

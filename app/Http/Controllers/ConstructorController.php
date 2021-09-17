@@ -31,19 +31,13 @@ class ConstructorController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'constructorRef' => 'required|max:255',
-            'name' => 'required|string|unique:constructors|max:255',
-            'url' => 'required|string|max:255',
-            'nationality' => 'string|max:255',
-        ]);
+        $validator = Validator::make($request->all(), Constructor::rules());
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
         $constructor = new Constructor();
         $constructor = $constructor->createConstructor($request->all());
         return response()->json($constructor, 201);
-
     }
 
     /**
@@ -72,8 +66,7 @@ class ConstructorController extends Controller
     {
         $constructor = Constructor::find($id);
         if($constructor){
-            $validator = Validator::make($request->all(), [
-            ]);
+            $validator = Validator::make($request->all(), Constructor::rules(true, $request->all(), $id));
             if ($validator->fails()) {
                 return response()->json($validator->errors(), 400);
             }

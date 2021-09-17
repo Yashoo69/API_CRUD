@@ -34,16 +34,7 @@ class DriverController extends Controller
     public function store(Request $request)
 
     {
-        $validator = Validator::make($request->all(), [
-            'driverRef' => 'required|string|max:255',
-            'forename' => 'required|string|max:255',
-            'surname' => 'required|string|max:255',
-            'number' => 'integer|max:11',
-            'code' => 'string|max:255',
-            'dob' => 'date',
-            'nationality' => 'string|max:255',
-            'url' => 'required|unique:drivers|string|max:255',
-        ]);
+        $validator = Validator::make($request->all(), Driver::rules());
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
@@ -77,8 +68,7 @@ class DriverController extends Controller
     public function update(Request $request, int $id){
         $driver = Driver::find($id);
         if($driver){
-            $validator = Validator::make($request->all(), [
-            ]);
+            $validator = Validator::make($request->all(), Driver::rules(true, $request->all(), $id));
             if ($validator->fails()) {
                 return response()->json($validator->errors(), 400);
             }

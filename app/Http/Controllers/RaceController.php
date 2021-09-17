@@ -31,9 +31,7 @@ class RaceController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-
-        ]);
+        $validator = Validator::make($request->all(), Race::rules());
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
@@ -68,15 +66,7 @@ class RaceController extends Controller
     {
         $race = Race::find($id);
         if($race){
-            $validator = Validator::make($request->all(), [
-                'circuitId' => 'required|integer|exists:circuits,circuitId',
-                'year' => 'required|integer|size:4',
-                'round' => 'required|integer|max:11',
-                'name' => 'required|max:255',
-                'date' => 'required|date',
-                'time' => 'time',
-                'url' => 'unique:races',
-            ]);
+            $validator = Validator::make($request->all(), Race::rules(true, $request->all(), $id));
             if ($validator->fails()) {
                 return response()->json($validator->errors(), 400);
             }
