@@ -78,20 +78,12 @@ class DriverController extends Controller
         $driver = Driver::find($id);
         if($driver){
             $validator = Validator::make($request->all(), [
-                'driverRef' => 'required|string|max:255',
-                'forename' => 'required|string|max:255',
-                'surname' => 'required|string|max:255',
-                'number' => 'integer|max:11',
-                'code' => 'string|max:255',
-                'dob' => 'date',
-                'nationality' => 'string|max:255',
-                'url' => 'required|unique:drivers|string|max:255',
             ]);
             if ($validator->fails()) {
                 return response()->json($validator->errors(), 400);
             }
             $driver = $driver->updateDriver($request->all());
-            return response()->json($driver, 200);
+            return response()->json('Driver succefully updated', 200);
         }
         return response()->json('Driver not found', 404);
     }

@@ -31,16 +31,14 @@ class ResultController extends Controller
      */
     public function store(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'raceId' => 'required|integer|exists:races,raceId',
             'driverId' => 'required|integer|exists:drivers,driverId',
             'constructorId' => 'required|integer|exists:constructors,constructorId',
-
             'grid' => 'required|integer|max:11',
             'positionOrder' => 'required|integer|max:11',
             'positiontext' => 'required|string|max:255',
-            'points' => 'required|float',
+            'points' => 'required|numeric',
             'laps' => 'required|integer|max:11',
             'time' => 'string|max:255',
             'number' => 'integer/max:11',
@@ -50,36 +48,26 @@ class ResultController extends Controller
             'rank' => 'integer/max:11',
             'fastestLapTime' => 'string|max:255',
             'fastestLapSpeed' => 'string|max:255',
-
         ]);
-
         if ($validator->fails()) {
-
             return response()->json($validator->errors(), 400);
-
         }
-
-
         $result = new Result();
         $result = $result->createResult($request->all());
-
         return response()->json($result, 201);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Result  $result
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
         $result = Result::with(['race.circuit'])->find($id);
-
         if ($result){
-
-            return new ResultResource($result);
-            // return Response($driver);
+            return new ResultResource($result); // return Response($driver);
         }
         return response()->json("Result not found", 404);
     }
@@ -88,42 +76,22 @@ class ResultController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Result  $result
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Result $result)
+    public function update(Request $request, int $id)
     {
-
-        $validator = Validator::make($request->all(), [
-            'raceId' => 'required|integer|exists:races,raceId',
-            'driverId' => 'required|integer|exists:drivers,driverId',
-            'constructorId' => 'required|integer|exists:constructors,constructorId',
-
-            'grid' => 'required|integer|max:11',
-            'positionOrder' => 'required|integer|max:11',
-            'positiontext' => 'required|string|max:255',
-            'points' => 'required|float',
-            'laps' => 'required|integer|max:11',
-            'time' => 'string|max:255',
-            'number' => 'integer/max:11',
-            'position' => 'integer/max:11',
-            'milliseconds' => 'integer/max:11',
-            'fastestLap' => 'integer/max:11',
-            'rank' => 'integer/max:11',
-            'fastestLapTime' => 'string|max:255',
-            'fastestLapSpeed' => 'string|max:255',
-
-        ]);
-
-        if ($validator->fails()) {
-
-            return response()->json($validator->errors(), 400);
-
+        $result = Result::find($id);
+        if($result){
+            $validator = Validator::make($request->all(), [
+            ]);
+            if ($validator->fails()) {
+                return response()->json($validator->errors(), 400);
+            }
+            $result = $result->updateResult($request->all());
+            return response()->json('Result succefully updated', 200);
         }
-
-        $result = $result->updateResult($request->all());
-
-        return response()->json($result, 200);
+        return response()->json('Result not found', 404);
     }
 
     /**
@@ -132,10 +100,13 @@ class ResultController extends Controller
      * @param  \App\Models\Result  $result
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Result $result)
+    public function destroy(int $id)
     {
-        $result->delete();
-
-        return response()->json('', 204);
+        $result = Result::find($id);
+        if($result){
+            $result->delete();
+            return response()->json('Result succefully deleted', 204);
+        }
+        return response()->json('Result not found', 404);
     }
 }

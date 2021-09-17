@@ -32,13 +32,7 @@ class RaceController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'circuitId' => 'required|integer|exists:circuits,circuitId',
-            'year' => 'required|integer|max:11',
-            'round' => 'required|integer|max:11',
-            'name' => 'required|max:255',
-            'date' => 'required|date',
-            'time' => 'time',
-            'url' => 'unique:races',
+
         ]);
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
@@ -51,7 +45,7 @@ class RaceController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Race  $race
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -67,36 +61,44 @@ class RaceController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Race  $race
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Race $race)
+    public function update(Request $request, int $id)
     {
-        $validator = Validator::make($request->all(), [
-            'circuitId' => 'required|integer|exists:circuits,circuitId',
-            'year' => 'required|integer|max:11',
-            'round' => 'required|integer|max:11',
-            'name' => 'required|max:255',
-            'date' => 'required|date',
-            'time' => 'time',
-            'url' => 'unique:races',
-        ]);
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
+        $race = Race::find($id);
+        if($race){
+            $validator = Validator::make($request->all(), [
+                'circuitId' => 'required|integer|exists:circuits,circuitId',
+                'year' => 'required|integer|size:4',
+                'round' => 'required|integer|max:11',
+                'name' => 'required|max:255',
+                'date' => 'required|date',
+                'time' => 'time',
+                'url' => 'unique:races',
+            ]);
+            if ($validator->fails()) {
+                return response()->json($validator->errors(), 400);
+            }
+            $race = $race->updateRace($request->all());
+            return response()->json('Race succefully updated', 200);
         }
-        $race = $race->updateRace($request->all());
-        return response()->json($race, 200);
+        return response()->json('Race not found', 404);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Race  $race
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Race $race)
+    public function destroy(int $id)
     {
-        $race->delete();
-        return response()->json('', 204);
+        $race = Race::find($id);
+        if($race){
+            $race->delete();
+            return response()->json('Race succefully deleted', 204);
+        }
+        return response()->json('Race not found', 404);
     }
 }

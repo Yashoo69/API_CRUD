@@ -73,16 +73,12 @@ class ConstructorController extends Controller
         $constructor = Constructor::find($id);
         if($constructor){
             $validator = Validator::make($request->all(), [
-                'constructorRef' => 'required|max:255',
-                'name' => 'required|string|unique:constructors|max:255',
-                'nationality' => 'string|max:255',
-                'url' => 'required|string|max:255',
             ]);
             if ($validator->fails()) {
                 return response()->json($validator->errors(), 400);
             }
             $constructor = $constructor->updateConstructor($request->all());
-            return response()->json('Constructor succefully deleted', 200);
+            return response()->json('Constructor succefully updated', 200);
         }
         return response()->json('Constructor not found', 404);
     }
