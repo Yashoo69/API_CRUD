@@ -57,7 +57,7 @@ class Constructor extends Model
             'constructorRef' => 'required|max:255',
             'name' => 'required|string|max:255|unique:constructors,name,' . $id . ',contructorId',
             'url' => 'required|string|max:255',
-            'nationality' => 'string|max:255',
+            'nationality' => 'nullable|string|max:255',
         ];
         if($update) {
             $customRules = [];

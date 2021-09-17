@@ -64,11 +64,11 @@ class Race extends Model
         $rules = [
             'circuitId' => 'required|integer|exists:circuits,circuitId',
             'year' => 'required|integer|size:4',
-            'round' => 'required|integer|max:11',
+            'round' => 'required|integer|max:10000000000',
             'name' => 'required|max:255',
             'date' => 'required|date',
-            'time' => 'time',
-            'url' => 'unique:races,url,' . $id . ',raceId',
+            'time' => 'nullable|time',
+            'url' => 'nullable|unique:races,url,' . $id . ',raceId',
         ];
         if($update) {
             $customRules = [];

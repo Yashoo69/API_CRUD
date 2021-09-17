@@ -9,6 +9,7 @@ use App\Http\Controllers\ResultController;
 use App\Http\Controllers\CircuitController;
 use App\Http\Controllers\ConstructorController;
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Middleware\Authenticate;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,3 +69,5 @@ Route::resource('results', ResultController::class)->only([
 route::get('drivers/search/{surname}', [DriverController::class,'search']);
 
 route::get('circuits/search/{country}', [CircuitController::class,'search']);
+
+route::get('error', [AuthenticationController::class, 'error'])->name('error');

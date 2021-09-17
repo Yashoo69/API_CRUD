@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class UserSeeder extends Seeder
 {
@@ -13,8 +14,6 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        $path = base_path("database/data/users.sql");
-        $sql = file_get_contents($path);
-        DB::unprepared($sql); 
+        
     }
 }

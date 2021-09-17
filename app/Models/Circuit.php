@@ -64,11 +64,11 @@ class Circuit extends Model
             'circuitRef' => 'required|max:255',
             'name' => 'required|string|max:255',
             'url' => 'required|max:255|unique:circuits,url,' . $id . ',circuitId',
-            'country' => 'string|max:255',
-            'location' => 'string|max:255',
-            'lat' => 'numeric',
-            'lng' => 'numeric',
-            'alt' => 'integer|max:11',
+            'country' => 'nullable|string|max:255',
+            'location' => 'nullable|string|max:255',
+            'lat' => 'nullable|numeric',
+            'lng' => 'nullable|numeric',
+            'alt' => 'nullable|integer|max:10000000000',
         ];
         if($update) {
             $customRules = [];

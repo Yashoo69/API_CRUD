@@ -57,4 +57,8 @@ class AuthenticationController extends Controller
 
         return Response(User::all());
     }
+
+    public function error(){
+        return response()->json('Please login or create a new user', 401);
+    }
 }
