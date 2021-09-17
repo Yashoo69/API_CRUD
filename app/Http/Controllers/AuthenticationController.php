@@ -52,4 +52,9 @@ class AuthenticationController extends Controller
             'message' => 'Tokens Revoked'
         ];
     }
+
+    public function index() {
+
+        return Response(User::all());
+    }
 }

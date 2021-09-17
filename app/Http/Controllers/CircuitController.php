@@ -38,8 +38,8 @@ class CircuitController extends Controller
             'url' => 'required|unique:circuits|max:255',
             'country' => 'string|max:255', 
             'location' => 'string|max:255', 
-            'lat' => 'float', 
-            'lng' => 'float',
+            'lat' => 'numeric', 
+            'lng' => 'numeric',
             'alt' => 'integer|max:11',
         ]);
 
@@ -88,8 +88,8 @@ class CircuitController extends Controller
             'url' => 'required|unique:circuits|max:255',
             'country' => 'string|max:255', 
             'location' => 'string|max:255', 
-            'lat' => 'float', 
-            'lng' => 'float',
+            'lat' => 'numeric', 
+            'lng' => 'numeric',
             'alt' => 'integer|max:11',
         ]);
 
