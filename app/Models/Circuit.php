@@ -68,7 +68,7 @@ class Circuit extends Model
             'location' => 'nullable|string|max:255',
             'lat' => 'nullable|numeric',
             'lng' => 'nullable|numeric',
-            'alt' => 'nullable|integer|max:10000000000',
+            'alt' => 'nullable|integer',
         ];
         if($update) {
             $customRules = [];

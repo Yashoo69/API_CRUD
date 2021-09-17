@@ -64,7 +64,7 @@ class Race extends Model
         $rules = [
             'circuitId' => 'required|integer|exists:circuits,circuitId',
             'year' => 'required|integer|size:4',
-            'round' => 'required|integer|max:10000000000',
+            'round' => 'required|integer',
             'name' => 'required|max:255',
             'date' => 'required|date',
             'time' => 'nullable|time',

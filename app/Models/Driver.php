@@ -61,7 +61,7 @@ class Driver extends Model
             'driverRef' => 'required|string|max:255',
             'forename' => 'required|string|max:255',
             'surname' => 'required|string|max:255',
-            'number' => 'nullable|integer|max:10000000000',
+            'number' => 'nullable|integer',
             'code' => 'nullable|string|max:255',
             'dob' => 'nullable|date',
             'nationality' => 'nullable|string|max:255',
