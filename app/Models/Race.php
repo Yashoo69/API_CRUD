@@ -63,7 +63,7 @@ class Race extends Model
     static function rules($update = false,  $data = [], $id = 0){
         $rules = [
             'circuitId' => 'required|integer|exists:circuits,circuitId',
-            'year' => 'required|integer|size:4',
+            'year' => 'required|integer|digits_between:4,4',
             'round' => 'required|integer',
             'name' => 'required|max:255',
             'date' => 'required|date',
