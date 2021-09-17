@@ -1,17 +1,17 @@
 ## Projet F1
 -----------
 - Récuperer le lien Git.
-- Télécharger le lien et installer dans le dossier desiré.
-- Créer un fichier database/data/database.sqlite
-- Coller votre fichier .env  
-- Placer dans DB_DATABASE= le lien absolu du fichier database.sqlite
-- Dans le terminal à l'emplacement du dossier faire un composer install puis un php artisan migrate:fresh --seed
+- Télécharger le lien et installer dans le dossier désiré.
+- Créer un fichier `database/data/database.sqlite`
+- Coller votre fichier `.env`  
+- Placer dans `DB_DATABASE= le lien absolu du fichier database.sqlite`
+- Dans le terminal à l'emplacement du dossier faire un composer install puis un `php artisan migrate:fresh --seed`
 - Terminer par un `php artisan serve`
 `
 ### Postman
 ------------
 
-Dans le postman il y a la documentation de l'API, pour y accéder : cliquer sur les °°° à droite de F1 (au niveau de l'arborescence) puis sélectionner "View documentation".
+Dans le postman il y a la documentation de l'API, pour y accéder : cliquer sur les `°°°` à droite de F1 (au niveau de l'arborescence) puis sélectionner "View documentation".
 
 La création, supression ou mise à jour de ressources n'est accessible qu'aux utilisateurs connectés à l'aide d'un Token d'authentification (ainsi que l'accè!s à la liste d'utilisateurs).
 
@@ -54,39 +54,39 @@ En plus de cela, il est possible de faire une recherche par surname pour les dri
 ```
     ex: http://127.0.0.1:8000/api/drivers/search/hamilton
 ```
-Ce qui renverra tous les drivers avec "hamilton" dans le champs surname.
+Ce qui renverra tous les drivers avec `hamilton` dans le champs surname.
 
 De la même manière, il est est possible de faire une recherche par country pour les circuits :
 ```
     ex: http://127.0.0.1:8000/api/circuits/search/Argentina
 ```
-Ce qui renverra tous les circuits avec "Argentina" dans le champs country.
+Ce qui renverra tous les circuits avec `Argentina` dans le champs country.
 
-Lorsqu'on retourne toutes les ressources, on peut filtrer les résultats avec différents filtres, après le signe "?" :
-- {colonne}={valeur} : Retourne toutes les ressources ayant "valeur" dans la colonne "colonne"
+Lorsqu'on retourne toutes les ressources, on peut filtrer les résultats avec différents filtres, après le signe `?` :
+- `{colonne}={valeur}` : Retourne toutes les ressources ayant `valeur` dans la colonne `colonne`
 ```
     ex: http://127.0.0.1:8000/api/drivers?forename=pedro
 ```
 
-- sort={colonne} : Trie toutes les ressources par rapport à la valeur de la colonne "colonne", dans l'ordre ascendant
+- `sort={colonne}` : Trie toutes les ressources par rapport à la valeur de la colonne `colonne`, dans l'ordre ascendant
 ```
     ex: http://127.0.0.1:8000/api/drivers?sort=driverId
 ```
 
-- desc={colonne} : Trie toutes les ressources par rapport à la valeur de la colonne "colonne", dans l'ordre descendant
+- `desc={colonne}` : Trie toutes les ressources par rapport à la valeur de la colonne `colonne`, dans l'ordre descendant
 ```
     ex: http://127.0.0.1:8000/api/drivers?desc=number
 ```
 
-- paginate={nombre} : Renvoie "nombre" ressources, à coupler avec page={num} pour voir les ressources suivantes
+- `paginate={nombre}` : Renvoie `nombre` ressources, à coupler avec `page={num}` pour voir les ressources suivantes
 ```
     ex: http://127.0.0.1:8000/api/drivers?paginate=50&page=2
 ```
 
-Pour combiner plusoieurs filtres à la fois il suffit de les séparer par le signe &
+Pour combiner plusieurs filtres à la fois il suffit de les séparer par le signe `&`
 ```
     ex: http://127.0.0.1:8000/api/drivers?nationality=German&sort=number&paginate=10&page=2
 ```
 
 ------------------
- #### Created by: Lênaic Dujour, Thomas Vidal and Anthony Melinand.
+ #### Created by: Lénaïc Dujour, Thomas Vidal and Anthony Melinand.
